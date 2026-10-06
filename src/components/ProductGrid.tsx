@@ -18,8 +18,8 @@ export const ProductGrid: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {filtered.length === 0 ? (
           <div className="text-center py-24 border border-dashed border-black/15 dark:border-white/15 rounded-3xl">
-            <p className="font-heading text-xl font-bold mb-2">No pieces found</p>
-            <p className="text-xs font-mono opacity-60">Try modifying your search or filter options</p>
+            <p className="font-heading text-xl font-bold mb-2">{products.length === 0 ? 'New collection coming soon' : 'No pieces found'}</p>
+            <p className="text-xs font-mono opacity-60">{products.length === 0 ? 'Check back shortly for the first HASHTAGSX drop' : 'Try modifying your search or filter options'}</p>
           </div>
         ) : (
           <div
