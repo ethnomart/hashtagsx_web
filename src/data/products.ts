@@ -122,4 +122,33 @@ export const products: Product[] = [
     isNew: true,
     inStock: true,
   },
+  {
+    id: 'hx-baggy-sweatpants',
+    slug: 'baggy-sweatpants',
+    title: 'Baggy Sweatpants',
+    price: 3700,
+    formattedPrice: 'Rs 3,700',
+    category: 'Bottoms',
+    description:
+      'Relaxed sweatpants in soft cotton fleece with a roomy baggy silhouette and clean straight-leg hems. Easy to style for everyday wear.',
+    details: [
+      'Soft cotton fleece',
+      'Elastic waistband with adjustable drawstring',
+      'Side pockets',
+      'Baggy straight-leg fit',
+    ],
+    materials: 'Cotton fleece',
+    fit: 'Relaxed baggy fit',
+    images: [
+      '/products/sweatpants-1.jpg',
+      '/products/sweatpants-2.jpg',
+      '/products/sweatpants-3.jpg',
+      '/products/sweatpants-4.jpg',
+    ],
+    colors: ['Grey', 'Black'],
+    colorImages: { 'Grey': 0, 'Black': 1 },
+    sizes: ['S', 'M', 'L', 'XL'],
+    isNew: true,
+    inStock: true,
+  },
 ];
