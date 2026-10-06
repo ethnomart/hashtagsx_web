@@ -15,8 +15,9 @@ export const ProductModal: React.FC = () => {
   if (!activeProductModal) return null;
 
   const product = activeProductModal;
-  const currentSize = selectedSize || product.sizes[0] || 'Standard';
   const currentColor = selectedColor || product.colors?.[0] || undefined;
+  const availableSizes = (currentColor && product.sizesByColor?.[currentColor]) || product.sizes;
+  const currentSize = availableSizes.includes(selectedSize) ? selectedSize : availableSizes[0] || 'Standard';
 
   const handleAddToCart = () => {
     addToCart(product, currentSize, quantity, currentColor);
@@ -125,7 +126,7 @@ export const ProductModal: React.FC = () => {
               </div>
             )}
 
-            {product.sizes.length > 0 && product.sizes[0] !== 'One Size' && (
+            {availableSizes.length > 0 && availableSizes[0] !== 'One Size' && (
               <div className="mb-6">
                 <div className="flex items-center justify-between text-xs font-mono uppercase mb-2">
                   <span className="font-bold">Select Size</span>
@@ -137,7 +138,7 @@ export const ProductModal: React.FC = () => {
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {product.sizes.map(size => (
+                  {availableSizes.map(size => (
                     <button
                       key={size}
                       onClick={() => {

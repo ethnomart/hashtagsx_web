@@ -93,4 +93,33 @@ export const products: Product[] = [
     isNew: true,
     inStock: true,
   },
+  {
+    id: 'hx-box-fit-baggy-shirt',
+    slug: 'box-fit-baggy-shirt',
+    title: 'Box Fit Baggy Shirt',
+    price: 3700,
+    formattedPrice: 'Rs 3,700',
+    category: 'Shirts',
+    description:
+      'A relaxed, baggy box-fit shirt with dropped shoulders and a slightly cropped body. Universal sizing: the fit is roomy, so you can size down for a baggier look.',
+    details: [
+      'Relaxed baggy box fit with dropped shoulders',
+      'Panelled seams with metal snap detailing',
+      'Slightly cropped body length',
+      'Universal sizing, no size chart needed',
+    ],
+    materials: 'Soft cotton-blend fabric',
+    fit: 'Oversized box fit',
+    images: [
+      '/products/box-fit-1.jpg',
+      '/products/box-fit-2.jpg',
+      '/products/box-fit-3.jpg',
+    ],
+    colors: ['Black', 'Chocolate Brown', 'Beige'],
+    colorImages: { 'Black': 0, 'Chocolate Brown': 1, 'Beige': 2 },
+    sizes: ['M', 'L', 'XL'],
+    sizesByColor: { 'Black': ['M', 'L', 'XL'], 'Chocolate Brown': ['L', 'XL'], 'Beige': ['M', 'L', 'XL'] },
+    isNew: true,
+    inStock: true,
+  },
 ];

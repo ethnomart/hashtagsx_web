@@ -16,7 +16,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) =
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const defaultSize = product.sizes[0] || 'One Size';
+    const defaultSize = (product.sizesByColor?.[product.colors[0]] || product.sizes)[0] || 'One Size';
     addToCart(product, defaultSize, 1, product.colors[0]);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
@@ -24,7 +24,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) =
 
   const handleBuyNow = (e: React.MouseEvent) => {
     e.stopPropagation();
-    buyNow(product, product.sizes[0] || 'One Size', 1, product.colors[0]);
+    buyNow(product, (product.sizesByColor?.[product.colors[0]] || product.sizes)[0] || 'One Size', 1, product.colors[0]);
   };
 
   const handleOpenDetail = () => {
