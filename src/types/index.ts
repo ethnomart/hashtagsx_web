@@ -20,6 +20,7 @@ export interface Product {
   fit: string;
   images: string[];
   colors: string[];
+  colorImages?: Record<string, number>;
   sizes: string[];
   isNew?: boolean;
   inStock?: boolean;
@@ -28,6 +29,7 @@ export interface Product {
 export interface CartItem {
   product: Product;
   size: string;
+  color?: string;
   quantity: number;
 }
 

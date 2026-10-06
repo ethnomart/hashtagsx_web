@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useStore } from '../context/StoreContext';
 import { X, Plus, Minus, Check, ShieldCheck, Truck } from 'lucide-react';
 import { sound } from '../utils/sound';
+import { formatPrice } from '../utils/currency';
 
 export const ProductModal: React.FC = () => {
   const { activeProductModal, setActiveProductModal, addToCart, buyNow, setIsShippingOpen } = useStore();
   const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedImgIndex, setSelectedImgIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
@@ -14,9 +16,10 @@ export const ProductModal: React.FC = () => {
 
   const product = activeProductModal;
   const currentSize = selectedSize || product.sizes[0] || 'Standard';
+  const currentColor = selectedColor || product.colors?.[0] || undefined;
 
   const handleAddToCart = () => {
-    addToCart(product, currentSize, quantity);
+    addToCart(product, currentSize, quantity, currentColor);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
@@ -92,6 +95,35 @@ export const ProductModal: React.FC = () => {
             <p className="text-sm text-black/75 dark:text-cream/75 leading-relaxed mb-6">
               {product.description}
             </p>
+
+            {product.colors && product.colors.length > 1 && (
+              <div className="mb-6">
+                <div className="text-xs font-mono uppercase mb-2">
+                  <span className="font-bold">Select Colour</span>
+                  <span className="opacity-60">: {currentColor}</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {product.colors.map(color => (
+                    <button
+                      key={color}
+                      onClick={() => {
+                        sound.playClick();
+                        setSelectedColor(color);
+                        const idx = product.colorImages?.[color];
+                        if (idx !== undefined) setSelectedImgIndex(idx);
+                      }}
+                      className={'px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all ' + (
+                        currentColor === color
+                          ? 'bg-[#eb3324] text-white shadow-sm'
+                          : 'bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10'
+                      )}
+                    >
+                      {color}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {product.sizes.length > 0 && product.sizes[0] !== 'One Size' && (
               <div className="mb-6">
@@ -177,13 +209,13 @@ export const ProductModal: React.FC = () => {
               ) : (
                 <>
                   <Plus className="w-4 h-4" />
-                  <span>Add to Bag · ${(product.price * quantity).toFixed(2)}</span>
+                  <span>Add to Bag · {formatPrice(product.price * quantity)}</span>
                 </>
               )}
             </button>
 
             <button
-              onClick={() => buyNow(product, currentSize, quantity)}
+              onClick={() => buyNow(product, currentSize, quantity, currentColor)}
               className="w-full py-4 rounded-2xl font-mono text-sm font-bold border-2 border-[#eb3324] text-[#eb3324] hover:bg-[#eb3324] hover:text-white transition-all active:scale-98"
             >
               Buy Now

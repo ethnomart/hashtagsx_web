@@ -41,7 +41,7 @@ export const ShippingModal: React.FC = () => {
             <div>
               <h4 className="font-heading font-bold text-base mb-1">Worldwide Shipping</h4>
               <p>
-                We ship globally via DHL Express and FedEx. Orders over $75 qualify for complimentary worldwide shipping. Standard delivery times range from 3-7 business days depending on destination.
+                We deliver across Pakistan. Orders over Rs 10,000 qualify for free shipping, otherwise delivery is Rs 250. Standard delivery times range from 3-7 business days depending on destination.
               </p>
             </div>
           </div>

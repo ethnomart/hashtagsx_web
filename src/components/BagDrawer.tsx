@@ -3,6 +3,7 @@ import { useStore } from '../context/StoreContext';
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Sparkles } from 'lucide-react';
 import { sound } from '../utils/sound';
 import confetti from 'canvas-confetti';
+import { formatPrice, SHIPPING_FEE, FREE_SHIPPING_THRESHOLD } from '../utils/currency';
 
 const API_URL: string = ((import.meta as any).env?.VITE_API_URL || '').replace(/\/$/, '');
 
@@ -38,7 +39,7 @@ export const BagDrawer: React.FC = () => {
 
   if (!isCartOpen) return null;
 
-  const freeShippingThreshold = 75.0;
+  const freeShippingThreshold = FREE_SHIPPING_THRESHOLD;
   const progressToFree = Math.min(100, (cartSubtotal / freeShippingThreshold) * 100);
   const remainingForFree = Math.max(0, freeShippingThreshold - cartSubtotal);
 
@@ -57,7 +58,7 @@ export const BagDrawer: React.FC = () => {
     }
   };
 
-  const shippingCost = remainingForFree <= 0 ? 0 : 12;
+  const shippingCost = remainingForFree <= 0 ? 0 : SHIPPING_FEE;
 
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +74,7 @@ export const BagDrawer: React.FC = () => {
             id: i.product.id,
             title: i.product.title,
             size: i.size,
+            color: i.color || '',
             quantity: i.quantity,
             price: i.product.price,
           })),
@@ -137,8 +139,8 @@ export const BagDrawer: React.FC = () => {
             <div className="flex items-center justify-between text-[11px] font-mono mb-1.5">
               <span>
                 {remainingForFree > 0
-                  ? 'Add $' + remainingForFree.toFixed(2) + ' more for Free Shipping'
-                  : '✨ You unlocked Free Worldwide Shipping!'}
+                  ? 'Add ' + formatPrice(remainingForFree) + ' more for Free Shipping'
+                  : '✨ You unlocked Free Shipping!'}
               </span>
               <span className="font-bold text-[#eb3324]">{Math.round(progressToFree)}%</span>
             </div>
@@ -173,7 +175,7 @@ export const BagDrawer: React.FC = () => {
             ) : (
               cart.map((item, idx) => (
                 <div
-                  key={item.product.id + '-' + item.size + '-' + idx}
+                  key={item.product.id + '-' + item.size + '-' + (item.color || '') + '-' + idx}
                   className="flex items-center gap-4 p-3 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/5 dark:border-white/5"
                 >
                   <img
@@ -185,21 +187,21 @@ export const BagDrawer: React.FC = () => {
                     <h4 className="font-heading font-bold text-sm truncate">{item.product.title}</h4>
                     <div className="flex items-center gap-2 text-xs font-mono opacity-70 my-1">
                       <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 font-bold">
-                        {item.size}
+                        {item.color ? item.color + ' / ' : ''}{item.size}
                       </span>
-                      <span>${item.product.price.toFixed(2)} each</span>
+                      <span>{formatPrice(item.product.price)} each</span>
                     </div>
                     <div className="flex items-center gap-2 mt-2">
                       <div className="flex items-center border border-black/15 dark:border-white/15 rounded-lg">
                         <button
-                          onClick={() => updateQuantity(item.product.id, item.size, item.quantity - 1)}
+                          onClick={() => updateQuantity(item.product.id, item.size, item.quantity - 1, item.color)}
                           className="px-2 py-0.5 hover:bg-black/10 dark:hover:bg-white/10"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
                         <span className="px-2 text-xs font-mono font-bold">{item.quantity}</span>
                         <button
-                          onClick={() => updateQuantity(item.product.id, item.size, item.quantity + 1)}
+                          onClick={() => updateQuantity(item.product.id, item.size, item.quantity + 1, item.color)}
                           className="px-2 py-0.5 hover:bg-black/10 dark:hover:bg-white/10"
                         >
                           <Plus className="w-3.5 h-3.5" />
@@ -207,7 +209,7 @@ export const BagDrawer: React.FC = () => {
                       </div>
 
                       <button
-                        onClick={() => removeFromCart(item.product.id, item.size)}
+                        onClick={() => removeFromCart(item.product.id, item.size, item.color)}
                         className="text-[#eb3324] hover:text-black p-1 opacity-70 hover:opacity-100 transition-opacity ml-auto"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -247,22 +249,22 @@ export const BagDrawer: React.FC = () => {
               <div className="space-y-1.5 text-xs font-mono">
                 <div className="flex justify-between opacity-70">
                   <span>Subtotal</span>
-                  <span>${cartSubtotal.toFixed(2)}</span>
+                  <span>{formatPrice(cartSubtotal)}</span>
                 </div>
                 {discountPercent > 0 && (
                   <div className="flex justify-between text-[#eb3324] font-bold">
                     <span>Discount ({discountPercent}%)</span>
-                    <span>-${discountAmount.toFixed(2)}</span>
+                    <span>-{formatPrice(discountAmount)}</span>
                   </div>
                 )}
                 <div className="flex justify-between opacity-70">
                   <span>Estimated Shipping</span>
-                  <span>{remainingForFree <= 0 ? 'FREE' : '$12.00'}</span>
+                  <span>{remainingForFree <= 0 ? 'FREE' : formatPrice(SHIPPING_FEE)}</span>
                 </div>
                 <div className="flex justify-between text-base font-bold font-heading pt-2 border-t border-black/10 dark:border-white/10">
                   <span>Total</span>
                   <span className="font-mono text-[#eb3324]">
-                    ${(finalTotal + (remainingForFree <= 0 ? 0 : 12)).toFixed(2)}
+                    {formatPrice(finalTotal + shippingCost)}
                   </span>
                 </div>
               </div>

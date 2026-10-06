@@ -7,16 +7,16 @@ import confetti from 'canvas-confetti';
 interface StoreContextType {
   products: Product[];
   cart: CartItem[];
-  addToCart: (product: Product, size: string, quantity?: number) => void;
-  removeFromCart: (productId: string, size: string) => void;
-  updateQuantity: (productId: string, size: string, quantity: number) => void;
+  addToCart: (product: Product, size: string, quantity?: number, color?: string) => void;
+  removeFromCart: (productId: string, size: string, color?: string) => void;
+  updateQuantity: (productId: string, size: string, quantity: number, color?: string) => void;
   clearCart: () => void;
   totalCartCount: number;
   cartSubtotal: number;
   
   checkoutIntent: boolean;
   setCheckoutIntent: (v: boolean) => void;
-  buyNow: (product: Product, size: string, quantity?: number) => void;
+  buyNow: (product: Product, size: string, quantity?: number, color?: string) => void;
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
   isMenuOpen: boolean;
@@ -107,18 +107,18 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const [checkoutIntent, setCheckoutIntent] = useState(false);
 
-  const addToCart = (product: Product, size: string, quantity = 1) => {
+  const addToCart = (product: Product, size: string, quantity = 1, color?: string) => {
     sound.playSuccess();
     setCart(prev => {
-      const existing = prev.find(item => item.product.id === product.id && item.size === size);
+      const existing = prev.find(item => item.product.id === product.id && item.size === size && item.color === color);
       if (existing) {
         return prev.map(item =>
-          item.product.id === product.id && item.size === size
+          item.product.id === product.id && item.size === size && item.color === color
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-      return [...prev, { product, size, quantity }];
+      return [...prev, { product, size, color, quantity }];
     });
 
     try {
@@ -130,23 +130,23 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       });
     } catch {}
 
-    showToast('Added ' + product.title + ' (' + size + ') to bag');
+    showToast('Added ' + product.title + ' (' + (color ? color + ', ' : '') + size + ') to bag');
   };
 
-  const removeFromCart = (productId: string, size: string) => {
+  const removeFromCart = (productId: string, size: string, color?: string) => {
     sound.playClick();
-    setCart(prev => prev.filter(item => !(item.product.id === productId && item.size === size)));
+    setCart(prev => prev.filter(item => !(item.product.id === productId && item.size === size && item.color === color)));
   };
 
-  const updateQuantity = (productId: string, size: string, quantity: number) => {
+  const updateQuantity = (productId: string, size: string, quantity: number, color?: string) => {
     sound.playClick();
     if (quantity <= 0) {
-      removeFromCart(productId, size);
+      removeFromCart(productId, size, color);
       return;
     }
     setCart(prev =>
       prev.map(item =>
-        item.product.id === productId && item.size === size ? { ...item, quantity } : item
+        item.product.id === productId && item.size === size && item.color === color ? { ...item, quantity } : item
       )
     );
   };
@@ -175,8 +175,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     window.scrollTo({ top: 0, behavior: 'instant' as any });
   };
 
-  const buyNow = (product: Product, size: string, quantity = 1) => {
-    addToCart(product, size, quantity);
+  const buyNow = (product: Product, size: string, quantity = 1, color?: string) => {
+    addToCart(product, size, quantity, color);
     setActiveProductModal(null);
     setCheckoutIntent(true);
     setIsCartOpen(true);
