@@ -151,4 +151,31 @@ export const products: Product[] = [
     isNew: true,
     inStock: true,
   },
+  {
+    id: 'hx-denim-baggy-jeans',
+    slug: 'denim-baggy-jeans',
+    title: 'Denim Baggy Jeans',
+    price: 2750,
+    formattedPrice: 'Rs 2,750',
+    category: 'Bottoms',
+    description:
+      'Dark indigo baggy jeans with a relaxed balloon fit and an extended length. Structured denim with a clean fall and a bold, modern streetwear shape. Sizes are waist sizes.',
+    details: [
+      'Structured denim in dark indigo',
+      'Relaxed balloon fit with a wide leg',
+      'Extended length',
+      'Five-pocket styling',
+      'Sizes are waist sizes in inches',
+    ],
+    materials: 'Cotton denim',
+    fit: 'Relaxed baggy fit',
+    images: [
+      '/products/denim-jeans-1.jpg',
+      '/products/denim-jeans-2.jpg',
+    ],
+    colors: [],
+    sizes: ['28', '36', '38'],
+    isNew: true,
+    inStock: true,
+  },
 ];
