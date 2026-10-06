@@ -1,0 +1,235 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Product, CartItem, FilterCategory, ViewMode } from '../types';
+import { products } from '../data/products';
+import { sound } from '../utils/sound';
+import confetti from 'canvas-confetti';
+
+interface StoreContextType {
+  products: Product[];
+  cart: CartItem[];
+  addToCart: (product: Product, size: string, quantity?: number) => void;
+  removeFromCart: (productId: string, size: string) => void;
+  updateQuantity: (productId: string, size: string, quantity: number) => void;
+  clearCart: () => void;
+  totalCartCount: number;
+  cartSubtotal: number;
+  
+  checkoutIntent: boolean;
+  setCheckoutIntent: (v: boolean) => void;
+  buyNow: (product: Product, size: string, quantity?: number) => void;
+  isCartOpen: boolean;
+  setIsCartOpen: (open: boolean) => void;
+  isMenuOpen: boolean;
+  setIsMenuOpen: (open: boolean) => void;
+  isWhyOpen: boolean;
+  setIsWhyOpen: (open: boolean) => void;
+  isShippingOpen: boolean;
+  setIsShippingOpen: (open: boolean) => void;
+  
+  activeProductModal: Product | null;
+  setActiveProductModal: (product: Product | null) => void;
+  
+  filterCategory: FilterCategory;
+  setFilterCategory: (cat: FilterCategory) => void;
+  viewMode: ViewMode;
+  setViewMode: (mode: ViewMode) => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
+  soundEnabled: boolean;
+  toggleSound: () => void;
+  
+  isPreloaderComplete: boolean;
+  setIsPreloaderComplete: (complete: boolean) => void;
+  replayPreloader: () => void;
+
+  toastMessage: string | null;
+  showToast: (msg: string) => void;
+}
+
+const StoreContext = createContext<StoreContextType | undefined>(undefined);
+
+export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    try {
+      const saved = localStorage.getItem('hashtagsx_cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isWhyOpen, setIsWhyOpen] = useState(false);
+  const [isShippingOpen, setIsShippingOpen] = useState(false);
+  const [activeProductModal, setActiveProductModal] = useState<Product | null>(null);
+
+  const [filterCategory, setFilterCategory] = useState<FilterCategory>('All');
+  const [viewMode, setViewMode] = useState<ViewMode>('grid-3');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    try {
+      return (localStorage.getItem('hashtagsx_theme') as 'light' | 'dark') || 'light';
+    } catch {
+      return 'light';
+    }
+  });
+
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('hashtagsx_cart', JSON.stringify(cart));
+    } catch {}
+  }, [cart]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('hashtagsx_theme', theme);
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch {}
+  }, [theme]);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const [checkoutIntent, setCheckoutIntent] = useState(false);
+
+  const addToCart = (product: Product, size: string, quantity = 1) => {
+    sound.playSuccess();
+    setCart(prev => {
+      const existing = prev.find(item => item.product.id === product.id && item.size === size);
+      if (existing) {
+        return prev.map(item =>
+          item.product.id === product.id && item.size === size
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+      return [...prev, { product, size, quantity }];
+    });
+
+    try {
+      confetti({
+        particleCount: 35,
+        spread: 60,
+        origin: { y: 0.8 },
+        colors: ['#eb3324', '#000000', '#ffffff']
+      });
+    } catch {}
+
+    showToast('Added ' + product.title + ' (' + size + ') to bag');
+  };
+
+  const removeFromCart = (productId: string, size: string) => {
+    sound.playClick();
+    setCart(prev => prev.filter(item => !(item.product.id === productId && item.size === size)));
+  };
+
+  const updateQuantity = (productId: string, size: string, quantity: number) => {
+    sound.playClick();
+    if (quantity <= 0) {
+      removeFromCart(productId, size);
+      return;
+    }
+    setCart(prev =>
+      prev.map(item =>
+        item.product.id === productId && item.size === size ? { ...item, quantity } : item
+      )
+    );
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const cartSubtotal = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+
+  const toggleTheme = () => {
+    sound.playClick();
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const toggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    sound.setEnabled(next);
+    if (next) sound.playPop();
+  };
+
+  const replayPreloader = () => {
+    setIsPreloaderComplete(false);
+    window.scrollTo({ top: 0, behavior: 'instant' as any });
+  };
+
+  const buyNow = (product: Product, size: string, quantity = 1) => {
+    addToCart(product, size, quantity);
+    setActiveProductModal(null);
+    setCheckoutIntent(true);
+    setIsCartOpen(true);
+  };
+
+  return (
+    <StoreContext.Provider
+      value={{
+        products,
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        totalCartCount,
+        cartSubtotal,
+        checkoutIntent,
+        setCheckoutIntent,
+        buyNow,
+        isCartOpen,
+        setIsCartOpen,
+        isMenuOpen,
+        setIsMenuOpen,
+        isWhyOpen,
+        setIsWhyOpen,
+        isShippingOpen,
+        setIsShippingOpen,
+        activeProductModal,
+        setActiveProductModal,
+        filterCategory,
+        setFilterCategory,
+        viewMode,
+        setViewMode,
+        searchQuery,
+        setSearchQuery,
+        theme,
+        toggleTheme,
+        soundEnabled,
+        toggleSound,
+        isPreloaderComplete,
+        setIsPreloaderComplete,
+        replayPreloader,
+        toastMessage,
+        showToast
+      }}
+    >
+      {children}
+    </StoreContext.Provider>
+  );
+};
+
+export const useStore = () => {
+  const context = useContext(StoreContext);
+  if (!context) throw new Error('useStore must be used within StoreProvider');
+  return context;
+};

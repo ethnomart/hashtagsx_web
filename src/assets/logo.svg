@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 230" fill="none" class="w-full h-full">
+  <rect width="400" height="230" rx="12" fill="currentColor" fill-opacity="0"/>
+  <!-- Top Bar -->
+  <rect x="50" y="24" width="300" height="12" fill="currentColor" rx="2"/>
+  
+  <!-- "HX#" Bold Glyphs -->
+  <g fill="currentColor">
+    <!-- H -->
+    <path d="M 55 60 L 82 60 L 82 92 L 112 92 L 112 60 L 139 60 L 139 155 L 112 155 L 112 118 L 82 118 L 82 155 L 55 155 Z"/>
+    
+    <!-- X -->
+    <path d="M 148 60 L 175 60 L 198 102 L 221 60 L 248 60 L 214 107 L 250 155 L 223 155 L 198 113 L 173 155 L 146 155 L 182 107 Z"/>
+    
+    <!-- # (Hashtag) -->
+    <path d="M 272 58 L 282 58 L 280 75 L 305 75 L 307 58 L 317 58 L 315 75 L 332 75 L 330 87 L 313 87 L 309 113 L 326 113 L 324 125 L 307 125 L 303 156 L 293 156 L 295 125 L 270 125 L 266 156 L 256 156 L 258 125 L 242 125 L 244 113 L 260 113 L 264 87 L 248 87 L 250 75 L 266 75 Z M 276 87 L 272 113 L 297 113 L 301 87 Z"/>
+  </g>
+
+  <!-- Bottom Box / Tag -->
+  <rect x="50" y="172" width="300" height="34" fill="white" rx="2"/>
+  <text x="200" y="196" font-family="'Space Grotesk', 'Neue Haas Grotesk', sans-serif" font-size="20" font-weight="800" letter-spacing="10" fill="#6b3ba6" text-anchor="middle" dominant-baseline="middle">HASHTAGSX</text>
+</svg>
