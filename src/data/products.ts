@@ -178,4 +178,32 @@ export const products: Product[] = [
     isNew: true,
     inStock: true,
   },
+  {
+    id: 'hx-eclipse-co-ord-set',
+    slug: 'eclipse-co-ord-set',
+    title: 'Eclipse Co-ord Set',
+    price: 2900,
+    formattedPrice: 'Rs 2,900',
+    category: 'Sports',
+    description:
+      'A matching two-piece set in waffle-knit fabric: a colour-blocked black and tan T-shirt with drawstring shorts that carry tan side panels. Comfortable, relaxed and ready to wear together or apart.',
+    details: [
+      'Waffle knit fabric',
+      'Colour-blocked black and tan T-shirt',
+      'Drawstring shorts with tan side panels',
+      'Size chart shown in the last photo (measurements in inches)',
+    ],
+    materials: 'Waffle knit fabric',
+    fit: 'Relaxed fit',
+    images: [
+      '/products/eclipse-coord-1.jpg',
+      '/products/eclipse-coord-2.jpg',
+      '/products/eclipse-coord-3.jpg',
+      '/products/eclipse-coord-4.jpg',
+    ],
+    colors: [],
+    sizes: ['M', 'L', 'XL'],
+    isNew: true,
+    inStock: true,
+  },
 ];
