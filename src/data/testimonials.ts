@@ -29,4 +29,13 @@ export const testimonials: Testimonial[] = [
     comment:
       "I tried this perfume on a friend's recommendation and absolutely loved the scent. It smells so good and feels really premium. Definitely one to try!",
   },
+  {
+    id: 'zohaib-knitted-quarter-zip-sweater',
+    productId: 'hx-knitted-quarter-zip-sweater',
+    productTitle: 'Knitted Quarter Zip Sweater',
+    name: 'Zohaib',
+    city: 'Lahore',
+    comment:
+      'Today I received the sweater. The quality of sweater is so good and I am really satisfied with the product.',
+  },
 ];
