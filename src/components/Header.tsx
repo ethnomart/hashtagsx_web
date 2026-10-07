@@ -34,7 +34,7 @@ export const Header: React.FC = () => {
         <div className="flex whitespace-nowrap animate-marquee">
           <span className="mx-6 tracking-wider font-semibold text-[#eb3324]">HASHTAGSX® SIGNATURE COLLECTION 2026</span>
           <span className="mx-6 opacity-40">/</span>
-          <span className="mx-6 tracking-wider">WORLDWIDE EXPRESS SHIPPING</span>
+          <span className="mx-6 tracking-wider">NATIONWIDE EXPRESS SHIPPING</span>
           <span className="mx-6 opacity-40">/</span>
           <span className="mx-6 tracking-wider font-semibold text-[#eb3324]">MADE TO BE WORN. OR JUDGED. OR BOTH.</span>
           <span className="mx-6 opacity-40">/</span>
@@ -42,7 +42,7 @@ export const Header: React.FC = () => {
           <span className="mx-6 opacity-40">/</span>
           <span className="mx-6 tracking-wider font-semibold text-[#eb3324]">HASHTAGSX® SIGNATURE COLLECTION 2026</span>
           <span className="mx-6 opacity-40">/</span>
-          <span className="mx-6 tracking-wider">WORLDWIDE EXPRESS SHIPPING</span>
+          <span className="mx-6 tracking-wider">NATIONWIDE EXPRESS SHIPPING</span>
         </div>
       </div>
 

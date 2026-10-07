@@ -39,7 +39,7 @@ export const ShippingModal: React.FC = () => {
               <Truck className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-heading font-bold text-base mb-1">Worldwide Shipping</h4>
+              <h4 className="font-heading font-bold text-base mb-1">Nationwide Shipping</h4>
               <p>
                 We deliver across Pakistan. Orders over Rs 10,000 qualify for free shipping, otherwise delivery is Rs 250. Standard delivery times range from 3-7 business days depending on destination.
               </p>
