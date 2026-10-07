@@ -114,7 +114,7 @@ export const MenuDrawer: React.FC = () => {
                 Twitter (X)
               </a>
               <span>·</span>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#eb3324]">
+              <a href="https://www.instagram.com/hashtagsx1/" target="_blank" rel="noreferrer" className="hover:text-[#eb3324]">
                 Instagram
               </a>
               <span>·</span>

@@ -113,7 +113,7 @@ export const Footer: React.FC = () => {
             </a>
           </div>
           <div>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
+            <a href="https://www.instagram.com/hashtagsx1/" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
               INSTAGRAM
             </a>
           </div>
