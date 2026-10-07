@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
+import { testimonials } from '../data/testimonials';
 
 const API_URL: string = ((import.meta as any).env?.VITE_API_URL || '').replace(/\/$/, '');
 
@@ -8,10 +9,11 @@ interface Review {
   productId: string;
   productTitle: string;
   name: string;
-  city: string;
-  rating: number;
+  city?: string;
+  rating?: number;
   comment: string;
-  createdAt: string;
+  createdAt?: string;
+  verified?: boolean;
 }
 
 interface ReviewData {
@@ -34,7 +36,7 @@ const useReviews = (productId?: string, reloadKey = 0) => {
     let alive = true;
     fetch(API_URL + '/api/reviews' + (productId ? '?product=' + encodeURIComponent(productId) : ''))
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => alive && d && setData(d))
+      .then((d) => alive && d && setData({ ...d, reviews: d.reviews.map((r: Review) => ({ ...r, verified: true })) }))
       .catch(() => {});
     return () => {
       alive = false;
@@ -45,12 +47,14 @@ const useReviews = (productId?: string, reloadKey = 0) => {
 
 const ReviewCard: React.FC<{ r: Review; showProduct?: boolean }> = ({ r, showProduct }) => (
   <div className="p-5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
-    <Stars value={r.rating} />
-    <p className="text-sm leading-relaxed mt-3 opacity-90">{r.comment}</p>
+    {r.rating ? <Stars value={r.rating} /> : null}
+    <p className={'text-sm leading-relaxed opacity-90' + (r.rating ? ' mt-3' : '')}>{r.comment}</p>
     <div className="mt-4 text-xs font-mono">
       <span className="font-bold">{r.name}</span>
-      <span className="opacity-60">, {r.city}</span>
-      <span className="ml-2 px-1.5 py-0.5 rounded bg-[#eb3324]/10 text-[#eb3324] font-bold">Verified buyer</span>
+      {r.city && <span className="opacity-60">, {r.city}</span>}
+      <span className="ml-2 px-1.5 py-0.5 rounded bg-[#eb3324]/10 text-[#eb3324] font-bold">
+        {r.verified ? 'Verified buyer' : 'Customer'}
+      </span>
     </div>
     {showProduct && <div className="mt-2 text-[11px] font-mono opacity-60">{r.productTitle}</div>}
   </div>
@@ -59,19 +63,25 @@ const ReviewCard: React.FC<{ r: Review; showProduct?: boolean }> = ({ r, showPro
 // Reviews shown at the bottom of the shop page. Hidden until there is at least one approved review.
 export const HomeReviews: React.FC = () => {
   const data = useReviews();
-  if (!data || data.reviews.length === 0) return null;
+  const items: Review[] = [
+    ...testimonials.map((t) => ({ ...t, id: t.id as unknown as number })),
+    ...(data ? data.reviews : []),
+  ];
+  if (items.length === 0) return null;
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div className="flex items-end justify-between gap-4 mb-6">
         <h2 className="font-heading text-2xl sm:text-3xl font-black">What customers say</h2>
-        <div className="flex items-center gap-2 text-sm font-mono">
-          <Stars value={data.average} />
-          <span className="font-bold">{data.average.toFixed(1)}</span>
-          <span className="opacity-60">({data.count})</span>
-        </div>
+        {data && data.count > 0 && (
+          <div className="flex items-center gap-2 text-sm font-mono">
+            <Stars value={data.average} />
+            <span className="font-bold">{data.average.toFixed(1)}</span>
+            <span className="opacity-60">({data.count})</span>
+          </div>
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.reviews.slice(0, 6).map((r) => (
+        {items.slice(0, 6).map((r) => (
           <ReviewCard key={r.id} r={r} showProduct />
         ))}
       </div>
@@ -83,6 +93,10 @@ export const HomeReviews: React.FC = () => {
 export const ProductReviews: React.FC<{ productId: string }> = ({ productId }) => {
   const [reloadKey, setReloadKey] = useState(0);
   const data = useReviews(productId, reloadKey);
+  const items: Review[] = [
+    ...testimonials.filter((t) => t.productId === productId).map((t) => ({ ...t, id: t.id as unknown as number })),
+    ...(data ? data.reviews : []),
+  ];
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ orderId: '', phone: '', rating: 5, comment: '' });
   const [busy, setBusy] = useState(false);
@@ -126,7 +140,9 @@ export const ProductReviews: React.FC<{ productId: string }> = ({ productId }) =
               <span className="opacity-60">({data.count} {data.count === 1 ? 'review' : 'reviews'})</span>
             </div>
           ) : (
-            <p className="text-xs font-mono opacity-60 mt-1">No reviews yet. Be the first once you have received your order.</p>
+            <p className="text-xs font-mono opacity-60 mt-1">
+              {items.length > 0 ? 'What customers say about this product' : 'No reviews yet. Be the first once you have received your order.'}
+            </p>
           )}
         </div>
         <button
@@ -162,9 +178,9 @@ export const ProductReviews: React.FC<{ productId: string }> = ({ productId }) =
         </form>
       )}
 
-      {data && data.reviews.length > 0 && (
+      {items.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {data.reviews.map((r) => (
+          {items.map((r) => (
             <ReviewCard key={r.id} r={r} />
           ))}
         </div>
