@@ -28,6 +28,7 @@ interface StoreContextType {
   
   activeProductModal: Product | null;
   setActiveProductModal: (product: Product | null) => void;
+  goShop: () => void;
   
   filterCategory: FilterCategory;
   setFilterCategory: (cat: FilterCategory) => void;
@@ -65,7 +66,38 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isWhyOpen, setIsWhyOpen] = useState(false);
   const [isShippingOpen, setIsShippingOpen] = useState(false);
-  const [activeProductModal, setActiveProductModal] = useState<Product | null>(null);
+  const productFromPath = (): Product | null => {
+    const m = window.location.pathname.match(/^\/product\/([\w-]+)\/?$/);
+    return m ? products.find((p) => p.slug === m[1]) || null : null;
+  };
+  const [activeProductModal, setActiveProduct] = useState<Product | null>(() => {
+    try {
+      return productFromPath();
+    } catch {
+      return null;
+    }
+  });
+
+  // Opening a product moves to its own address (/product/slug); closing returns to the shop
+  const setActiveProductModal = (product: Product | null) => {
+    setActiveProduct(product);
+    try {
+      const target = product ? '/product/' + product.slug : '/';
+      if (window.location.pathname !== target) window.history.pushState({}, '', target);
+      window.scrollTo({ top: 0, behavior: 'instant' as any });
+    } catch {}
+  };
+
+  useEffect(() => {
+    const onPop = () => setActiveProduct(productFromPath());
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  const goShop = () => {
+    setActiveProductModal(null);
+    setTimeout(() => document.getElementById('product-catalog')?.scrollIntoView({ behavior: 'smooth' }), 80);
+  };
 
   const [filterCategory, setFilterCategory] = useState<FilterCategory>('All');
   const [viewMode, setViewMode] = useState<ViewMode>('grid-3');
@@ -177,7 +209,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const buyNow = (product: Product, size: string, quantity = 1, color?: string) => {
     addToCart(product, size, quantity, color);
-    setActiveProductModal(null);
     setCheckoutIntent(true);
     setIsCartOpen(true);
   };
@@ -206,6 +237,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setIsShippingOpen,
         activeProductModal,
         setActiveProductModal,
+        goShop,
         filterCategory,
         setFilterCategory,
         viewMode,

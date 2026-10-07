@@ -13,7 +13,9 @@ export const Header: React.FC = () => {
     setIsMenuOpen,
     setIsWhyOpen,
     theme,
-    toggleTheme
+    toggleTheme,
+    setActiveProductModal,
+    goShop
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,6 +56,7 @@ export const Header: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <div
             onClick={() => {
+              setActiveProductModal(null);
               window.scrollTo({ top: 0, behavior: 'smooth' });
               sound.playClick();
             }}
@@ -64,8 +67,7 @@ export const Header: React.FC = () => {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-tight">
             <button
               onClick={() => {
-                const el = document.getElementById('product-catalog');
-                el?.scrollIntoView({ behavior: 'smooth' });
+                goShop();
                 sound.playClick();
               }}
               className="hover:text-[#eb3324] transition-colors flex items-center gap-1 group font-heading font-semibold"

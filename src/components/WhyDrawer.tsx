@@ -5,7 +5,7 @@ import { sound } from '../utils/sound';
 import { Logo } from './Logo';
 
 export const WhyDrawer: React.FC = () => {
-  const { isWhyOpen, setIsWhyOpen } = useStore();
+  const { isWhyOpen, setIsWhyOpen, goShop } = useStore();
 
   if (!isWhyOpen) return null;
 
@@ -84,7 +84,7 @@ export const WhyDrawer: React.FC = () => {
               onClick={() => {
                 sound.playClick();
                 setIsWhyOpen(false);
-                document.getElementById('product-catalog')?.scrollIntoView({ behavior: 'smooth' });
+                goShop();
               }}
               className="px-6 py-3 rounded-full bg-[#eb3324] text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-[#c41d10] transition-colors"
             >

@@ -5,7 +5,7 @@ import { sound } from '../utils/sound';
 import { Logo } from './Logo';
 
 export const MenuDrawer: React.FC = () => {
-  const { isMenuOpen, setIsMenuOpen, setIsWhyOpen, setIsShippingOpen } = useStore();
+  const { isMenuOpen, setIsMenuOpen, setIsWhyOpen, setIsShippingOpen, goShop } = useStore();
 
   if (!isMenuOpen) return null;
 
@@ -14,7 +14,7 @@ export const MenuDrawer: React.FC = () => {
       title: 'Shop Collection',
       action: () => {
         setIsMenuOpen(false);
-        document.getElementById('product-catalog')?.scrollIntoView({ behavior: 'smooth' });
+        goShop();
       }
     },
     {

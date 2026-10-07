@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import Lenis from 'lenis';
-import { StoreProvider } from './context/StoreContext';
+import { StoreProvider, useStore } from './context/StoreContext';
 import { Preloader } from './components/Preloader';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { FilterBar } from './components/FilterBar';
 import { ProductGrid } from './components/ProductGrid';
-import { ProductModal } from './components/ProductModal';
+import { ProductPage } from './components/ProductPage';
 import { BagDrawer } from './components/BagDrawer';
 import { MenuDrawer } from './components/MenuDrawer';
 import { WhyDrawer } from './components/WhyDrawer';
@@ -15,6 +15,7 @@ import { Footer } from './components/Footer';
 import { Toast } from './components/Toast';
 
 export function AppContent() {
+  const { activeProductModal } = useStore();
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -41,12 +42,17 @@ export function AppContent() {
       <Preloader />
       <Header />
       <main className="flex-grow">
-        <Hero />
-        <FilterBar />
-        <ProductGrid />
+        {activeProductModal ? (
+          <ProductPage key={activeProductModal.id} />
+        ) : (
+          <>
+            <Hero />
+            <FilterBar />
+            <ProductGrid />
+          </>
+        )}
       </main>
       <Footer />
-      <ProductModal />
       <BagDrawer />
       <MenuDrawer />
       <WhyDrawer />
