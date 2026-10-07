@@ -4,6 +4,7 @@ import { ArrowLeft, Plus, Minus, Check, Truck, Wallet } from 'lucide-react';
 import { sound } from '../utils/sound';
 import { formatPrice } from '../utils/currency';
 import { ProductCard } from './ProductCard';
+import { ProductReviews } from './Reviews';
 
 export const ProductPage: React.FC = () => {
   const { activeProductModal, setActiveProductModal, products, addToCart, buyNow, setIsShippingOpen } = useStore();
@@ -223,6 +224,8 @@ export const ProductPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <ProductReviews productId={product.id} />
 
       {related.length > 0 && (
         <div className="mt-16 md:mt-24">

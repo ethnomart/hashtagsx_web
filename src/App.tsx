@@ -7,6 +7,7 @@ import { Hero } from './components/Hero';
 import { FilterBar } from './components/FilterBar';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductPage } from './components/ProductPage';
+import { HomeReviews } from './components/Reviews';
 import { BagDrawer } from './components/BagDrawer';
 import { MenuDrawer } from './components/MenuDrawer';
 import { WhyDrawer } from './components/WhyDrawer';
@@ -49,6 +50,7 @@ export function AppContent() {
             <Hero />
             <FilterBar />
             <ProductGrid />
+            <HomeReviews />
           </>
         )}
       </main>
