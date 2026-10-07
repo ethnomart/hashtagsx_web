@@ -73,9 +73,9 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     try {
-      return (localStorage.getItem('hashtagsx_theme') as 'light' | 'dark') || 'light';
+      return (localStorage.getItem('hashtagsx_theme_v2') as 'light' | 'dark') || 'dark';
     } catch {
-      return 'light';
+      return 'dark';
     }
   });
 
@@ -91,7 +91,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   useEffect(() => {
     try {
-      localStorage.setItem('hashtagsx_theme', theme);
+      localStorage.setItem('hashtagsx_theme_v2', theme);
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
