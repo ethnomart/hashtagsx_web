@@ -5,7 +5,7 @@ import { sound } from '../utils/sound';
 import confetti from 'canvas-confetti';
 import { formatPrice, SHIPPING_FEE, FREE_SHIPPING_THRESHOLD } from '../utils/currency';
 
-const API_URL: string = ((import.meta as any).env?.VITE_API_URL || '').replace(/\/$/, '');
+import { API_URL } from '../utils/api';
 
 export const BagDrawer: React.FC = () => {
   const {
@@ -84,8 +84,8 @@ export const BagDrawer: React.FC = () => {
           total: finalTotal + shippingCost,
         }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Could not place order');
+      const data = await res.json().catch(() => ({} as any));
+      if (!res.ok || !data.id) throw new Error(data.error || 'We could not place your order right now. Please try again in a moment.');
       sound.playSuccess();
       try {
         confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 }, colors: ['#eb3324', '#000000', '#ffffff'] });
@@ -95,7 +95,11 @@ export const BagDrawer: React.FC = () => {
       setIsCartOpen(false);
       alert('Order ' + data.id + ' placed! We will contact you on ' + form.phone + ' to confirm. Payment: cash on delivery.');
     } catch (err) {
-      setOrderError(err instanceof Error ? err.message : 'Could not place order. Please try again.');
+      setOrderError(
+        err instanceof Error && !/fetch|network|load failed/i.test(err.message)
+          ? err.message
+          : 'We could not reach the store server. Check your connection and try again.'
+      );
     } finally {
       setCheckingOut(false);
     }

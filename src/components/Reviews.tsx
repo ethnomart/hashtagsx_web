@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import { testimonials } from '../data/testimonials';
 
-const API_URL: string = ((import.meta as any).env?.VITE_API_URL || '').replace(/\/$/, '');
+import { API_URL } from '../utils/api';
 
 interface Review {
   id: number;
@@ -115,8 +115,8 @@ export const ProductReviews: React.FC<{ productId: string }> = ({ productId }) =
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, productId }),
       });
-      const d = await res.json();
-      if (!res.ok) throw new Error(d.error || 'Could not send your review.');
+      const d = await res.json().catch(() => ({} as any));
+      if (!res.ok) throw new Error(d.error || 'Could not send your review right now. Please try again.');
       setMsg({ ok: true, text: d.message });
       setForm({ orderId: '', phone: '', rating: 5, comment: '' });
       setOpen(false);
