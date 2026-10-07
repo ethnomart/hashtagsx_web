@@ -136,8 +136,6 @@ export const Footer: React.FC = () => {
 
       </div>
 
-      </div>
-
       {/* Bottom Copyright Row */}
       <div className="mt-12 pt-6 border-t border-white/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono opacity-90 text-white">
         <div>© 2026 HASHTAGSX STUDIO. ALL RIGHTS RESERVED.</div>
