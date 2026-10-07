@@ -29,6 +29,8 @@ interface StoreContextType {
   activeProductModal: Product | null;
   setActiveProductModal: (product: Product | null) => void;
   goShop: () => void;
+  isPrivacyOpen: boolean;
+  openPrivacy: () => void;
   
   filterCategory: FilterCategory;
   setFilterCategory: (cat: FilterCategory) => void;
@@ -78,9 +80,19 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   });
 
+  const privacyFromPath = (): boolean => /^\/privacy-policy\/?$/.test(window.location.pathname);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState<boolean>(() => {
+    try {
+      return privacyFromPath();
+    } catch {
+      return false;
+    }
+  });
+
   // Opening a product moves to its own address (/product/slug); closing returns to the shop
   const setActiveProductModal = (product: Product | null) => {
     setActiveProduct(product);
+    setIsPrivacyOpen(false);
     try {
       const target = product ? '/product/' + product.slug : '/';
       if (window.location.pathname !== target) window.history.pushState({}, '', target);
@@ -89,10 +101,22 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   useEffect(() => {
-    const onPop = () => setActiveProduct(productFromPath());
+    const onPop = () => {
+      setActiveProduct(productFromPath());
+      setIsPrivacyOpen(privacyFromPath());
+    };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
+
+  const openPrivacy = () => {
+    setActiveProduct(null);
+    setIsPrivacyOpen(true);
+    try {
+      if (window.location.pathname !== '/privacy-policy') window.history.pushState({}, '', '/privacy-policy');
+      window.scrollTo({ top: 0, behavior: 'instant' as any });
+    } catch {}
+  };
 
   const goShop = () => {
     setActiveProductModal(null);
@@ -238,6 +262,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         activeProductModal,
         setActiveProductModal,
         goShop,
+        isPrivacyOpen,
+        openPrivacy,
         filterCategory,
         setFilterCategory,
         viewMode,

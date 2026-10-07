@@ -4,7 +4,7 @@ import { sound } from '../utils/sound';
 import { Play } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { replayPreloader, setIsWhyOpen, setIsShippingOpen } = useStore();
+  const { replayPreloader, setIsWhyOpen, setIsShippingOpen, openPrivacy } = useStore();
 
   return (
     <footer className="mx-auto mb-10 px-4 text-xs font-bold lg:px-6 max-w-[1700px] select-none text-white transition-colors duration-300">
@@ -92,9 +92,12 @@ export const Footer: React.FC = () => {
           </div>
           <div>
             <a
-              href="https://hashtagsx.com/privacy-policy"
-              target="_blank"
-              rel="noreferrer"
+              href="/privacy-policy"
+              onClick={(e) => {
+                e.preventDefault();
+                sound.playClick();
+                openPrivacy();
+              }}
               className="hover:underline opacity-90"
             >
               PRIVACY POLICY

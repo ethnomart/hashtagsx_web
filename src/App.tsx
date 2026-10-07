@@ -7,6 +7,7 @@ import { Hero } from './components/Hero';
 import { FilterBar } from './components/FilterBar';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductPage } from './components/ProductPage';
+import { PrivacyPage } from './components/PrivacyPage';
 import { HomeReviews } from './components/Reviews';
 import { BagDrawer } from './components/BagDrawer';
 import { MenuDrawer } from './components/MenuDrawer';
@@ -16,7 +17,7 @@ import { Footer } from './components/Footer';
 import { Toast } from './components/Toast';
 
 export function AppContent() {
-  const { activeProductModal } = useStore();
+  const { activeProductModal, isPrivacyOpen } = useStore();
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -43,7 +44,9 @@ export function AppContent() {
       <Preloader />
       <Header />
       <main className="flex-grow">
-        {activeProductModal ? (
+        {isPrivacyOpen ? (
+          <PrivacyPage />
+        ) : activeProductModal ? (
           <ProductPage key={activeProductModal.id} />
         ) : (
           <>
