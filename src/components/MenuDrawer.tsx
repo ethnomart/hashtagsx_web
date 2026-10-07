@@ -110,20 +110,8 @@ export const MenuDrawer: React.FC = () => {
 
           <div className="border-t border-white/10 pt-6 space-y-4">
             <div className="flex items-center gap-4 text-xs font-mono opacity-80">
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-[#eb3324]">
-                Twitter (X)
-              </a>
-              <span>·</span>
               <a href="https://www.instagram.com/hashtagsx1/" target="_blank" rel="noreferrer" className="hover:text-[#eb3324]">
                 Instagram
-              </a>
-              <span>·</span>
-              <a href="https://dribbble.com" target="_blank" rel="noreferrer" className="hover:text-[#eb3324]">
-                Dribbble
-              </a>
-              <span>·</span>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-[#eb3324]">
-                LinkedIn
               </a>
             </div>
 

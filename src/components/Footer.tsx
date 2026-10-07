@@ -108,23 +108,8 @@ export const Footer: React.FC = () => {
         {/* Col 3: Social Channels */}
         <div className="col-span-1 md:col-span-3 space-y-2">
           <div>
-            <a href="https://dribbble.com" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
-              DRIBBBLE
-            </a>
-          </div>
-          <div>
             <a href="https://www.instagram.com/hashtagsx1/" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
               INSTAGRAM
-            </a>
-          </div>
-          <div>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
-              LINKEDIN
-            </a>
-          </div>
-          <div>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
-              TWITTER (X)
             </a>
           </div>
         </div>
