@@ -206,4 +206,26 @@ export const products: Product[] = [
     isNew: true,
     inStock: true,
   },
+  {
+    id: 'razan-essence-limitless-aura',
+    slug: 'razan-essence-limitless-aura',
+    title: 'Razan Essence Limitless Aura',
+    price: 3650,
+    formattedPrice: 'Rs 3,650',
+    category: 'Perfumes',
+    description:
+      'Limitless Aura from Razan Essence, a signature fragrance in a clear glass bottle with a gold-trimmed cap and a black and gold label.',
+    details: [
+      'Razan Essence, Limitless Aura',
+      'Clear glass bottle with spray nozzle',
+      'Gold-trimmed cap',
+    ],
+    materials: 'Glass bottle',
+    fit: 'Spray',
+    images: ['/products/razan-limitless-aura.jpg'],
+    colors: [],
+    sizes: ['One Size'],
+    isNew: true,
+    inStock: true,
+  },
 ];

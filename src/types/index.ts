@@ -5,7 +5,8 @@ export type FilterCategory =
   | 'Leather Jackets'
   | 'Bottoms'
   | 'Sports'
-  | 'Accessories';
+  | 'Accessories'
+  | 'Perfumes';
 
 export interface Product {
   id: string;
@@ -13,7 +14,7 @@ export interface Product {
   title: string;
   price: number;
   formattedPrice: string;
-  category: 'Hoodies' | 'Shirts' | 'Leather Jackets' | 'Bottoms' | 'Sports' | 'Accessories';
+  category: 'Hoodies' | 'Shirts' | 'Leather Jackets' | 'Bottoms' | 'Sports' | 'Accessories' | 'Perfumes';
   description: string;
   details: string[];
   materials: string;

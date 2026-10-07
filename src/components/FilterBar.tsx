@@ -11,7 +11,8 @@ const CATEGORIES: FilterCategory[] = [
   'Leather Jackets',
   'Bottoms',
   'Sports',
-  'Accessories'
+  'Accessories',
+  'Perfumes'
 ];
 
 export const FilterBar: React.FC = () => {
