@@ -4,7 +4,7 @@ import { sound } from '../utils/sound';
 import { Play } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { replayPreloader, setIsWhyOpen, setIsShippingOpen, openPrivacy } = useStore();
+  const { replayPreloader, setIsWhyOpen, setIsShippingOpen, openPrivacy, openContact } = useStore();
 
   return (
     <footer className="mx-auto mb-10 px-4 text-xs font-bold lg:px-6 max-w-[1700px] select-none text-white transition-colors duration-300">
@@ -133,7 +133,15 @@ export const Footer: React.FC = () => {
             </a>
           </div>
           <div>
-            <a href="mailto:haseeburrehman5124@gmail.com" className="hover:underline font-extrabold">
+            <a
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                sound.playClick();
+                openContact();
+              }}
+              className="hover:underline font-extrabold"
+            >
               LET'S TALK
             </a>
           </div>

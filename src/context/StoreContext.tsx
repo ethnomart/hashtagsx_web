@@ -31,6 +31,8 @@ interface StoreContextType {
   goShop: () => void;
   isPrivacyOpen: boolean;
   openPrivacy: () => void;
+  isContactOpen: boolean;
+  openContact: () => void;
   
   filterCategory: FilterCategory;
   setFilterCategory: (cat: FilterCategory) => void;
@@ -89,10 +91,20 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   });
 
+  const contactFromPath = (): boolean => /^\/contact\/?$/.test(window.location.pathname);
+  const [isContactOpen, setIsContactOpen] = useState<boolean>(() => {
+    try {
+      return contactFromPath();
+    } catch {
+      return false;
+    }
+  });
+
   // Opening a product moves to its own address (/product/slug); closing returns to the shop
   const setActiveProductModal = (product: Product | null) => {
     setActiveProduct(product);
     setIsPrivacyOpen(false);
+    setIsContactOpen(false);
     try {
       const target = product ? '/product/' + product.slug : '/';
       if (window.location.pathname !== target) window.history.pushState({}, '', target);
@@ -104,13 +116,25 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const onPop = () => {
       setActiveProduct(productFromPath());
       setIsPrivacyOpen(privacyFromPath());
+      setIsContactOpen(contactFromPath());
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
+  const openContact = () => {
+    setActiveProduct(null);
+    setIsPrivacyOpen(false);
+    setIsContactOpen(true);
+    try {
+      if (window.location.pathname !== '/contact') window.history.pushState({}, '', '/contact');
+      window.scrollTo({ top: 0, behavior: 'instant' as any });
+    } catch {}
+  };
+
   const openPrivacy = () => {
     setActiveProduct(null);
+    setIsContactOpen(false);
     setIsPrivacyOpen(true);
     try {
       if (window.location.pathname !== '/privacy-policy') window.history.pushState({}, '', '/privacy-policy');
@@ -264,6 +288,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         goShop,
         isPrivacyOpen,
         openPrivacy,
+        isContactOpen,
+        openContact,
         filterCategory,
         setFilterCategory,
         viewMode,

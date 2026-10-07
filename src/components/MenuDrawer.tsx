@@ -5,7 +5,7 @@ import { sound } from '../utils/sound';
 import { Logo } from './Logo';
 
 export const MenuDrawer: React.FC = () => {
-  const { isMenuOpen, setIsMenuOpen, setIsWhyOpen, setIsShippingOpen, goShop } = useStore();
+  const { isMenuOpen, setIsMenuOpen, setIsWhyOpen, setIsShippingOpen, goShop, openContact } = useStore();
 
   if (!isMenuOpen) return null;
 
@@ -48,8 +48,10 @@ export const MenuDrawer: React.FC = () => {
     },
     {
       title: "Let's Talk",
-      href: 'mailto:haseeburrehman5124@gmail.com',
-      external: true
+      action: () => {
+        setIsMenuOpen(false);
+        openContact();
+      }
     }
   ];
 
