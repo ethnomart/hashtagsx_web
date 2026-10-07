@@ -48,7 +48,7 @@ export const MenuDrawer: React.FC = () => {
     },
     {
       title: "Let's Talk",
-      href: 'mailto:hello@hashtagsx.com',
+      href: 'mailto:haseeburrehman5124@gmail.com',
       external: true
     }
   ];

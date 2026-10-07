@@ -133,8 +133,7 @@ export const PrivacyPage: React.FC = () => {
           ]}
         />
         <p>
-          To make a request, contact us on the same phone number or message channel we used to confirm your order, and we
-          will help you.
+          To make a request, email us at <a href="mailto:haseeburrehman5124@gmail.com" className="underline text-[#eb3324]">haseeburrehman5124@gmail.com</a> or use the phone number or message channel we used to confirm your order, and we will help you.
         </p>
       </Section>
 

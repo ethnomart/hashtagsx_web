@@ -128,7 +128,12 @@ export const Footer: React.FC = () => {
             </a>
           </div>
           <div>
-            <a href="mailto:hello@hashtagsx.com" className="hover:underline font-extrabold">
+            <a href="mailto:haseeburrehman5124@gmail.com" className="hover:underline opacity-90 normal-case">
+              Email: haseeburrehman5124@gmail.com
+            </a>
+          </div>
+          <div>
+            <a href="mailto:haseeburrehman5124@gmail.com" className="hover:underline font-extrabold">
               LET'S TALK
             </a>
           </div>
