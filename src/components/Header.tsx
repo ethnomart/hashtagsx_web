@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Logo } from './Logo';
 import { NumberFlow } from './NumberFlow';
 import { useStore } from '../context/StoreContext';
-import { ShoppingBag, Menu, Sun, Moon, Volume2, VolumeX, ArrowUpRight } from 'lucide-react';
+import { ShoppingBag, Menu, Sun, Moon, ArrowUpRight } from 'lucide-react';
 import { sound } from '../utils/sound';
 
 export const Header: React.FC = () => {
@@ -13,9 +13,7 @@ export const Header: React.FC = () => {
     setIsMenuOpen,
     setIsWhyOpen,
     theme,
-    toggleTheme,
-    soundEnabled,
-    toggleSound
+    toggleTheme
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -102,15 +100,6 @@ export const Header: React.FC = () => {
               className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-black/80 dark:text-cream/80"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
-
-            <button
-              onClick={toggleSound}
-              aria-label="Toggle Sound"
-              className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-black/80 dark:text-cream/80"
-              title={soundEnabled ? 'Mute Sound FX' : 'Enable Sound FX'}
-            >
-              {soundEnabled ? <Volume2 className="w-4 h-4 text-[#eb3324]" /> : <VolumeX className="w-4 h-4 opacity-40" />}
             </button>
 
             <button

@@ -79,7 +79,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   });
 
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 

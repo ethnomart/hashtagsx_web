@@ -1,6 +1,6 @@
 class SoundFX {
   private ctx: AudioContext | null = null;
-  private enabled: boolean = true;
+  private enabled: boolean = false;
 
   private initCtx() {
     if (!this.ctx && typeof window !== 'undefined') {
