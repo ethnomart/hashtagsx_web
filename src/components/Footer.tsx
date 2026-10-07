@@ -114,26 +114,17 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Col 4: Studio Pages */}
+        {/* Col 4: Contact */}
         <div className="col-span-2 sm:col-span-1 md:col-span-3 space-y-2 text-right sm:text-left">
+          <div className="font-extrabold">CONTACT</div>
           <div>
-            <a href="https://hashtagsx.com/work" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
-              WORK
-            </a>
-          </div>
-          <div>
-            <a href="https://hashtagsx.com/services" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
-              SERVICES
-            </a>
-          </div>
-          <div>
-            <a href="https://hashtagsx.com/about" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
-              ABOUT
-            </a>
-          </div>
-          <div>
-            <a href="https://hashtagsx.com/careers" target="_blank" rel="noreferrer" className="hover:underline opacity-90">
-              CAREERS
+            <a
+              href="https://www.instagram.com/hashtagsx1/"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:underline opacity-90 normal-case"
+            >
+              Instagram: @hashtagsx1
             </a>
           </div>
           <div>
@@ -142,6 +133,8 @@ export const Footer: React.FC = () => {
             </a>
           </div>
         </div>
+
+      </div>
 
       </div>
 
